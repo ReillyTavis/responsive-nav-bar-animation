@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
+	<!-- External Jquery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<style>
+#body {
+	background-color: #294552;
+}
+#myContainer {
+  width: 100%;
+  height: 36.5em;
+  position: relative;
+	background-color: #00070a;
+}
+#navBar {
+width: 100%;
+height: 2em;
+background-color: #acc4ce;
+margin: 1em 0 1em 0;
+padding: 0em 0em .9em 0em;
+text-align: right;
+}
+
+#myContainer button{
+		background-color: #acc4ce;
+    font-family: 'Slabo 27px', serif;
+    letter-spacing: 2px;
+    margin: 1em 0 2em 0;
+    border: none;
+}
+#myAnimation {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  border-radius: 2px;
+	opacity: .8;
+}
+#myAnimation p {
+	font-family: 'Slabo 27px', serif;
+  letter-spacing: 2px;
+  color: #FFF;
+  font-weight: bold;
+	text-align: center;
+	text-transform: uppercase;
+}
+#item1, #item2 {
+	text-align: left;
+	padding: 0em 1.3em 0em 1.3em;
+}
+</style>
+<body onresize = "myMoveResponsive()">
+
+
+<div id ="myContainer">
+<div id="navBar">
+<p>
+<button id="item1" onclick="myMove()">ITEM 1</button>
+<button id="item2" onclick="myMoveSecond()">ITEM 2</button>
+</p>
+</div>
+<div id ="myAnimation"></div>
+</div>
+
+
+<script>
+
+
+var animContainer = document.getElementById("myContainer");
+var elem = document.getElementById("myAnimation");
+var navText = document.getElementByTagName("p");
+var animContainerWidth = animContainer.style.width;
+
+function containerFade() {
+
+		animContainer.style.backgroundImage = "url('waterfallImage.jpg')";
+}
+
+//function to detect changes in the window's width and update/re-run the myMove and myMoveSecond functions
+
+$(document).ready(function(){
+
+  var $win = $(window);
+
+  function display_info($div) {
+    $div.append($win.width() + ' x ' + $win.height() +  '<br>');
+  }
+
+
+  $(window).on('resize', _.debounce(function() {
+        elem.innerHTML = "<p>ooooooooooooo </p>";
+  }, 400));
+});
+
+function myMoveResponsive() {
+	if(animContainerWidth != animContainer.style.width) {
+	setTimeout(myMove, 1000);
+	clearTimeout(myMove);
+
+}
+else {
+	return;
+}
+}
+
+function myMove() {
+  var pos = 30;
+
+  var id = setInterval(frame, .5);
+  function frame() {
+    if (pos >= ($(window).width() / 4.15).toFixed(0)) {
+      clearInterval(id);
+
+			// Fade-in the background image of myContainer once the animation reaches it's target position
+			$('#myContainer').animate({opacity: 0}, 0).css("background-image", "url(waterfallImage.jpg)").animate({opacity: 1}, 600);
+
+			return;
+
+    }	else if (pos < ($(window).width() / 4.15).toFixed(0)) {
+      pos = pos + 1;
+			pos = pos + 1;
+      elem.style.top = pos + 5 + 'px';
+      elem.style.right = pos + 5 + 'px';
+      elem.style.width = pos * 2 + 'px';
+      elem.style.backgroundColor = "#597884";
+      elem.style.border = "1.2px solid #FFF";
+      elem.innerHTML = "<p>Item #1 </p>";
+    } else {
+			return;
+		}
+  }
+}
+
+function myMoveSecond() {
+  var pos = 30;
+  var id = setInterval(frame, .5);
+  function frame() {
+    if (pos == ($(window).width() / 4.15).toFixed(0)) {
+      clearInterval(id);
+    } else {
+      pos = pos + 1;
+      elem.style.top = pos + 5 + 'px';
+      elem.style.right = pos + 'px';
+      elem.style.width = pos * 2 + 'px';
+      elem.style.backgroundColor = "#597884";
+      elem.innerHTML = "<p>Item #2</p>";
+    }
+  }
+}
+
+
+</script>
+
+</body>
+</html>
